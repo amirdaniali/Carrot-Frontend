@@ -17,6 +17,7 @@ export default function Home() {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <Button>Click me</Button>
             <ModeToggle></ModeToggle>
+            <ScrollRestoration />
         </ThemeProvider>
     )
 }
