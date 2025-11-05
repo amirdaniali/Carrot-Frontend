@@ -1,23 +1,14 @@
-import { Button } from "~/components/ui/button"
+import type { Route } from "./+types/home";
+import { isAuthenticated } from "~/lib/authentication_utils";
+import LandingRoute from "./landing/index";
+import Dashboard from "./dashboard/index";
 
-import type { Route } from "./+types/home"
-import {ScrollRestoration} from "react-router";
-import {ThemeProvider} from "~/components/theme-provider";
-import {ModeToggle} from "~/components/mode-toggle";
-
-export function meta({}: Route.MetaArgs) {
-    return [
-        { title: "New React Router App" },
-        { name: "description", content: "Welcome to React Router!" },
-    ]
+// Client-side loader
+export async function clientLoader({}: Route.ClientLoaderArgs) {
+    return { isAuth: isAuthenticated() };
 }
 
-export default function Home() {
-    return (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <Button>Click me</Button>
-            <ModeToggle></ModeToggle>
-            <ScrollRestoration />
-        </ThemeProvider>
-    )
+// Render either landing or dashboard based on auth
+export default function Home({ loaderData }: Route.ComponentProps) {
+    return loaderData.isAuth ? <Dashboard /> : <LandingRoute />;
 }
